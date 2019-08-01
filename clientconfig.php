@@ -7,7 +7,7 @@ define('UI_TITLE', 'Discord Invite Gateway'); // Page title
 define('UI_ICON', '/img/favicon.png'); // Icon for page (favicon, tab icon)
 define('UI_STYLE_PATH', 'assets/style.css'); // Path to stylesheet to use
 define('UI_THEME_COLOUR', '#1f1f1f'); // Google Chrome's theme colour (mobile)
-define('RECAPTCHA_SITE_KEY', '6LemBhwUAAAAAHDav_SpZMS1OU3997SXGvScvkue'); // Google reCAPTCHA site key
+define('RECAPTCHA_SITE_KEY', ''); // Google reCAPTCHA site key
 define('JQUERY_PATH', 'https://code.jquery.com/jquery-3.2.0.min.js'); // jQuery library
 define('JQUERY_SRI_INTEGRITY', 'sha384-o9KO9jVK1Q4ybtHgJCCHfgQrTRNlkT6SL3j/qMuBMlDw3MmFrgrOHCOaIMJWGgK5'); // Sub-resource integrity hash (https://www.srihash.org/)
 define('JQUERY_SRI_CROSSORIGIN', 'anonymous'); // Sub-resource integrity cross-origin

@@ -18,9 +18,9 @@ class core {
 
     public function __construct() {
         global $token, $domain, $guild, $channel, $uri, $expiry, $maxuses, $tempmem, $defaulticon, $cliver, $ua, $grcuri, $grcseckey, $ip, $ctimeout;
-        $this->token = 'MzM2NjMxOTkxODQ5OTc1ODA4.DE7IhA.bu9u72F8ZuuYV1AxQfy5hgHyoCs'; // Bot token
+        $this->token = ''; // Bot token
         $this->domain = 'canary.discordapp.com'; // Domain
-        $this->channel = '293095254721298443'; // Channel ID - invites user to specific channel (e.g. rules)
+        $this->channel = ''; // Channel ID - invites user to specific channel (e.g. rules)
         $this->uri = 'https://'.$this->domain.'/api/v6/channels/'.$this->channel.'/invites'; // API path
 
         $this->expiry = 60; // Invite expiry
@@ -32,7 +32,7 @@ class core {
         $this->ua = 'DiscordBot (InviteBot, 1.0)'; // User agent
 
         $this->grcuri = 'https://www.google.com/recaptcha/api/siteverify'; // GRC (Google reCAPTCHA) API URL
-        $this->grcseckey = '6LemBhwUAAAAADJlmPNnXxvWutVWz80dMXOQJYAn'; // Secret key for the GRC API
+        $this->grcseckey = ''; // Secret key for the GRC API
 
         $this->ip = $_SERVER['REMOTE_ADDR']; // Get user IP
 
