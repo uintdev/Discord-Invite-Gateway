@@ -1,9 +1,7 @@
 <?php
 
 /**
-* * INVITE: https://discordapp.com/oauth2/authorize?client_id=336631991849975808&scope=bot&permissions=1
 * * INVITE: https://discordapp.com/oauth2/authorize?client_id={CLIENT_ID}&scope=bot&permissions=1
-*
 *
 * NOTES:
 * * You may need to enable developer mode in Discord in order to get an option to copy the ID's required for this tool to interact with the API with.
@@ -12,7 +10,6 @@
 * * This code is for PHP 7 and above. This can be made supported on 5.6, but it is advised to not use EOF versions of software.
 * * cURL PHP module is a requirement.
 */
-
 
 class core {
 
