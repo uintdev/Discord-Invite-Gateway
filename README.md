@@ -3,7 +3,7 @@
 
 ## About
 
-Discord Cache Dump is a web gateway that offers additional protection against automated usage of Discord invites.
+Discord Invite Gateway is a web gateway that offers additional protection against automated usage of Discord invites.
 
 ## Features
 
