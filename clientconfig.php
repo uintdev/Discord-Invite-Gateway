@@ -1,6 +1,6 @@
 <?php
 /**
-* CONFIG FOR MAIN PAGE
+* CONFIG FOR FRONTEND
 */
 
 define('UI_TITLE', 'Discord Invite Gateway'); // Page title
@@ -15,6 +15,5 @@ define('LIFETIME_SAFE', 30); // If visited the very last second, have there stil
 
 /*
 / Configuration for the invite script can be found in invite.php within the 'core' class. You'll know it when you see it.
-/ The configuration here is for the frontend.
 / Refer to README.md for more details.
 */
