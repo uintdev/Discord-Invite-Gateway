@@ -1,0 +1,175 @@
+html, body {
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    margin: 0;
+    font-family: sans-serif;
+    color: #fff;
+    background-color: #1f1f1f;
+    overflow: hidden;
+}
+.header {
+    font-size: 120%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.body {
+    padding-top: 25px;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 80%;
+    text-align: center;
+}
+
+a, a:visited {
+    color: #7289da;
+}
+
+.buttoncontainer {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+}
+.verify {
+    background-color: #7289da;
+    color: #fff;
+    border: solid 0px;
+    border-radius: 3px;
+    width: 90%;
+    padding: 20px;
+    font-size: 140%;
+    position: relative;
+    z-index: 3;
+}
+.verify:disabled {
+    background-color: #6c82ce;
+    color: #fff;
+}
+
+.invite {
+    background-color: #7289da;
+    color: #fff;
+    border: solid 0px;
+    border-radius: 3px;
+    width: 100%;
+    padding: 20px;
+    font-size: 110%;
+    z-index: 5;
+}
+.invite:disabled {
+    background-color: #6c82ce;
+    color: #fff;
+}
+
+.initinfo {
+    display: none;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 15px;
+    border: solid 0px;
+    border-radius: 3px;
+    overflow-wrap: break-word;
+    text-overflow: clip;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 110%;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #fff;
+}
+
+.maininfoblk {
+    display: none;
+    max-width: 100%;
+    height: 80%;
+    z-index: 4;
+}
+.maininfo {
+    max-width: 30%;
+    min-width: 30%;
+    box-sizing: border-box;
+    padding: 35px;
+    border: solid 0px;
+    border-radius: 3px;
+    overflow-wrap: break-word;
+    text-overflow: clip;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: 130%;
+}
+
+.info {
+    display: none;
+    font-family: monospace;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 15px;
+    border: solid 0px;
+    border-radius: 3px;
+    overflow-wrap: break-word;
+    text-overflow: clip;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: 120%;
+}
+.infohead {
+    display: inherit;
+    text-align: center;
+}
+
+.guildicon {
+    border: 0;
+    border-radius: 100%;
+    width: 80%;
+}
+.guildname {
+    font-size: 150%;
+}
+.guildchannel {
+    font-size: 105%;
+}
+.guildmsglocked {
+    color: #4a4a4a;
+}
+
+.show {
+    display: block;
+}
+.showf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grecaptcha-badge {
+    bottom: 12.5% !important;
+}
+
+@media all and (max-width: 1024px) {
+    .body {
+        padding-top: unset;
+        border-radius: unset;
+    }
+    .initinfo {
+        width: 100%;
+        padding: 10px;
+        border-radius: 0;
+    }
+    .info {
+        width: 100%;
+        border-radius: 0;
+    }
+    .maininfo {
+        max-width: 80%;
+        min-width: 80%;
+    }
+}
