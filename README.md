@@ -7,7 +7,7 @@ Discord Invite Gateway is a web gateway that offers additional protection agains
 
 ## Features
 
-- Modern responsive (yet basic) UI
+- Modern responsive (yet basic) dark UI
 - Google reCAPTCHA (v2)
 - Guild information preview
 - Countdown before expiration (w/ true expiration)
@@ -22,14 +22,14 @@ For this to function as intended, the following is required.
 
 - PHP 7
 - PHP cURL module
-- Google account, with reCAPTCHA v2 (invisible) set up for the site this would be hosted on
+- Google account, with Google reCAPTCHA v2 (invisible) set up for the site this would be hosted on
 - Discord account, with an application created (a bot)
 
 ## Configuring
 
 There are a couple files that you will need to make changes to. Look out for the names of the constants and variables mentioned in the tables below and modify their values to what they should be.
 - Create a Discord application (https://discordapp.com/developers/applications/)
-- Prepare your Google reCAPTCHA v2 (GRC) site and secret key (https://www.google.com/recaptcha)
+- Prepare your Google reCAPTCHA v2 (invisible) site and secret key (https://www.google.com/recaptcha)
 - Prepare your application (bot) client ID and token
 
 ### clientconfig.php
