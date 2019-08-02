@@ -9,25 +9,27 @@ Discord Invite Gateway is a web gateway that offers additional protection agains
 
 - Modern responsive (yet basic) dark UI
 - Google reCAPTCHA (v2)
+- TOR exit node check
 - Guild information preview
 - Countdown before expiration (w/ true expiration)
 - Very dynamic configuration
 - Error handling
-- Debug mode (viewing the raw Discord API response)
-- TOR exit node check
+- Debug mode (view raw Discord API response)
 
 ## Prerequisites
 
 For this to function as intended, the following is required.
 
 - PHP 7
-- PHP cURL module
+- PHP cURL & JSON modules
 - Google account, with Google reCAPTCHA v2 (invisible) set up for the site this would be hosted on
 - Discord account, with an application created (a bot)
 
 ## Configuring
 
 There are a couple files that you will need to make changes to. Look out for the names of the constants and variables mentioned in the tables below and modify their values to what they should be.
+
+You will need to:
 - Create a Discord application (https://discordapp.com/developers/applications/)
 - Prepare your Google reCAPTCHA v2 (invisible) site and secret key (https://www.google.com/recaptcha)
 - Prepare your application (bot) client ID and token
