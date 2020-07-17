@@ -30,7 +30,7 @@ For this to function as intended, the following is required.
 There are a couple files that you will need to make changes to. Look out for the names of the constants and variables mentioned in the tables below and modify their values to what they should be.
 
 You will need to:
-- Create a Discord application (https://discordapp.com/developers/applications/)
+- Create a Discord application (https://discord.com/developers/applications/)
 - Prepare your Google reCAPTCHA v2 (invisible) site and secret key (https://www.google.com/recaptcha)
 - Prepare your application (bot) client ID and token
 
@@ -60,7 +60,7 @@ You will need to:
 | maxuses     | Amount of times the same invite can be used                                                                                                                    |
 | tempmem     | Temporary membership                                                                                                                                           |
 | defaulticon | Icon to use if the guild has no icon set                                                                                                                       |
-| ua          | User agent -- refer to [Discord's documentation regarding UA format](https://discordapp.com/developers/docs/reference#http-api)                                |
+| ua          | User agent -- refer to [Discord's documentation regarding UA format](https://discord.com/developers/docs/reference#http-api)                                |
 | grcuri      | Google reCAPTCHA API URI                                                                                                                                       |
 | grcseckey   | Google reCAPTCHA secret key                                                                                                                                    |
 | ctimeout    | cURL request timeout for all external backend communication (in seconds)                                                                                       |
@@ -70,4 +70,4 @@ You will need to:
 
 ### Adding the bot
 
-Once you have all of that set up, add the bot to a guild of your choice using `https://discordapp.com/oauth2/authorize?client_id={CLIENT_ID}&scope=bot&permissions=1`. Replace `{CLIENT_ID}` with your application's (bot's) client ID. `permissions` with `1` only grants the `CREATE_INSTANT_INVITE` permission which is required for the bot to create invites.
+Once you have all of that set up, add the bot to a guild of your choice using `https://discord.com/oauth2/authorize?client_id={CLIENT_ID}&scope=bot&permissions=1`. Replace `{CLIENT_ID}` with your application's (bot's) client ID. `permissions` with `1` only grants the `CREATE_INSTANT_INVITE` permission which is required for the bot to create invites.

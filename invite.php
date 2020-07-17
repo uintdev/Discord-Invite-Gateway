@@ -1,7 +1,7 @@
 <?php
 
 /**
-* * INVITE: https://discordapp.com/oauth2/authorize?client_id={CLIENT_ID}&scope=bot&permissions=1
+* * INVITE: https://discord.com/oauth2/authorize?client_id={CLIENT_ID}&scope=bot&permissions=1
 *
 * NOTES:
 * * You may need to enable developer mode in Discord in order to get an option to copy the ID's required for this tool to interact with the API with.
@@ -16,7 +16,7 @@ class core {
     public function __construct() {
         global $token, $domain, $guild, $channel, $uri, $expiry, $maxuses, $tempmem, $defaulticon, $cliver, $ua, $grcuri, $grcseckey, $ip, $ctimeout;
         $this->token = ''; // Bot token
-        $this->domain = 'canary.discordapp.com'; // Domain
+        $this->domain = 'canary.discord.com'; // Domain
         $this->channel = ''; // Channel ID - invites user to specific channel (e.g. rules)
         $this->uri = 'https://'.$this->domain.'/api/v6/channels/'.$this->channel.'/invites'; // API path
 
