@@ -15,27 +15,41 @@ class core {
 
     public function __construct() {
         global $token, $domain, $guild, $channel, $uri, $expiry, $maxuses, $tempmem, $defaulticon, $cliver, $ua, $grcuri, $grcseckey, $ip, $ctimeout;
-        $this->token = ''; // Bot token
-        $this->domain = 'canary.discord.com'; // Domain
-        $this->channel = ''; // Channel ID - invites user to specific channel (e.g. rules)
-        $this->uri = 'https://'.$this->domain.'/api/v6/channels/'.$this->channel.'/invites'; // API path
+        // Bot token
+        $this->token = '';
+        // Domain
+        $this->domain = 'canary.discord.com';
+        // Channel ID - invites user to specific channel (e.g. rules)
+        $this->channel = '';
+        // API path
+        $this->uri = 'https://'.$this->domain.'/api/v6/channels/'.$this->channel.'/invites';
 
-        $this->expiry = 60; // Invite expiry
-        $this->maxuses = 1; // Invite uses
-        $this->tempmem = false; // Invite temporary membership
+        // Invite expiry
+        $this->expiry = 60;
+        // Invite uses
+        $this->maxuses = 1;
+        // Invite temporary membership
+        $this->tempmem = false;
 
-        $this->defaulticon = 'assets/default.png'; // Fallback icon for if the guild has no custom icon set
+        // Fallback icon for if the guild has no custom icon set
+        $this->defaulticon = 'assets/default.png';
 
-        $this->ua = 'DiscordBot (InviteBot, 1.0)'; // User agent
+        // User agent
+        $this->ua = 'DiscordBot (InviteBot, 1.0)';
 
-        $this->grcuri = 'https://www.google.com/recaptcha/api/siteverify'; // GRC (Google reCAPTCHA) API URL
-        $this->grcseckey = ''; // Secret key for the GRC API
+        // GRC (Google reCAPTCHA) API URL
+        $this->grcuri = 'https://www.google.com/recaptcha/api/siteverify';
+        // Secret key for the GRC API
+        $this->grcseckey = '';
 
-        $this->ip = $_SERVER['REMOTE_ADDR']; // Get user IP
+        // Get user IP
+        $this->ip = $_SERVER['REMOTE_ADDR'];
 
-        $this->ctimeout = 5; // Request timeout in seconds for cURL (all external backends) 
+        // Request timeout in seconds for cURL (all external backends)
+        $this->ctimeout = 5; 
 
-        $this->torchk = true; // Check if user is using a TOR exit node
+        // Check if user is using a TOR exit node
+        $this->torchk = true;
     }
     
     /**
@@ -46,13 +60,15 @@ class core {
      * @return string Returns JSON encoded response.
      */
     public function jsonres($result = '', $bypassenc = false) {
-        # Halts script where JSON encoded response *needs* to kick in
-        header('Content-Type: application/json; charset=utf-8'); // JSONify all the things!
+        // JSONify the content
+        header('Content-Type: application/json; charset=utf-8');
         if (!$bypassenc) $result = json_encode($result);
+        // Halts script where JSON encoded response *needs* to kick in
 		exit($result);
     }
 
-    public const DEBUG = false; // Set to true if you need to bypass ALL server-side protection and see Discord's API JSON response only (should only be used in non-prod)
+    // Set to true if you need to bypass ALL server-side protection and see Discord's API JSON response only (should only be used in non-prod)
+    public const DEBUG = false;
 
 }
 
@@ -70,9 +86,9 @@ class Initrequest extends core {
      * @return bool Indicate if user has passed or failed the reCAPTCHA.
      */
     public function reCaptcha() {
-        # Verifies Google reCaptcha
         if (isset($_POST['g-recaptcha-response'])) {
-            $grcpres = $_POST['g-recaptcha-response']; // get recaptcha response from form
+            // Get reCaptcha response from form
+            $grcpres = $_POST['g-recaptcha-response'];
         } else {
             $grcpres = '';
         }
@@ -133,9 +149,12 @@ class Initrequest extends core {
             curl_setopt_array($ch, $curlconfig);
             $html = curl_exec($ch);
             curl_close($ch);
-            return strstr($html, 'The IP Address you entered matches one or more active Tor servers'); // If the IP is listed then it's true else it's false
+
+            // If the IP is listed then it's true else it's false
+            return strstr($html, 'The IP Address you entered matches one or more active Tor servers');
         } else {
-            return true; // If using IPv6 then bypass check
+            // If using IPv6 then bypass check
+            return true;
         }
     }
 
@@ -148,14 +167,16 @@ class Initrequest extends core {
 		
 		# Sends off a request to the API in attempt to create a new guild invite and fetches the response
 
+        // POST parameters
         $postparams = [
             'max_age' => $this->expiry,
             'max_uses' => $this->maxuses,
             'temporary' => $this->tempmem,
             'unique' => true
-        ]; // POST parameters
-		
-        $postparamsjson = json_encode($postparams); // Encode to JSON
+        ];
+        
+        // Encode to JSON
+        $postparamsjson = json_encode($postparams);
 
         $curlconfig = [
             CURLOPT_URL => $this->uri,
@@ -183,17 +204,20 @@ class Initrequest extends core {
 $initrequest = new Initrequest;
 
 # Protection - APIs
+
+// Google reCAPTCHA
 if (!$core::DEBUG && !$initrequest->reCaptcha()) {
     $result = [
         'type' => 'err',
         'msg' => 'reCAPTCHA unsuccessful'
-    ]; // Google reCAPTCHA
+    ];
     $core->jsonres($result);
 } else if (!$core::DEBUG && $initrequest->torExitNode()) {
+    // TOR exit node check
     $result = [
         'type' => 'err',
         'msg' => 'TOR prohibited'
-    ]; // TOR exit node check
+    ];
     $core->jsonres($result);
 }
 
@@ -216,25 +240,32 @@ if (!$core::DEBUG && !$req) {
 
 # DEBUGGER
 if ($core::DEBUG) {
-    $core->jsonres($req, true); // Display Discord API response in a more easily debuggable format
+    // Display Discord API response in a more easily debuggable format
+    $core->jsonres($req, true);
 }
 
 # API RESPONSE HANDLING
 if ($req != false && !isset($req->guild->name)) {
     if (isset($req->retry_after) && isset($req->message) && $req->message == 'You are being rate limited.') {
-        # Rate limit handler
-        $remaincount = ceil($req->retry_after / 1000); // Convert milliseconds to seconds
-        $rmsg = 'Rate limited. Try again in '. $remaincount .' second(s)'; // Rate limited
+        // Convert milliseconds to seconds
+        $remaincount = ceil($req->retry_after / 1000);
+        // Rate limited
+        $rmsg = 'Rate limited. Try again in '. $remaincount .' second(s)';
     } elseif (isset($req->code) && $req->code == 0 && isset($req->message) && $req->message == '401: Unauthorized') {
-        $rmsg = 'Bad token or API restricted'; // Invalid token or API restricted
+        // Invalid token or API restricted
+        $rmsg = 'Bad token or API restricted';
     } elseif (isset($req->code) && $req->code == 0) {
-        $rmsg = 'Error - '. $req->message; // Forgot what this one was
+        // Forgot what this one was
+        $rmsg = 'Error - '. $req->message;
     } elseif (isset($req->code) && $req->code == 10003) {
-        $rmsg = 'Invalid channel'; // Channel does not exist
+        // Channel does not exist
+        $rmsg = 'Invalid channel';
     } elseif (isset($req->code) && $req->code == 50013) {
-        $rmsg = 'Insufficient permissions. Is the bot on the guild with the "CREATE_INSTANT_INVITE" permission enabled?'; // Account not on guild or missing required permission
+        // Account not on guild or missing required permission
+        $rmsg = 'Insufficient permissions. Is the bot on the guild with the "CREATE_INSTANT_INVITE" permission enabled?';
     } else {
-        $rmsg = 'An unhandled error has occurred.'; // Fallback
+        // Fallback
+        $rmsg = 'An unhandled error has occurred.';
     }
     $result = [
         'type' => 'err',
@@ -246,9 +277,10 @@ if ($req != false && !isset($req->guild->name)) {
 # Successful response
 
 if ($req->guild->icon) {
+    // Guild icon
     $icon = 'https://cdn.discordapp.com/icons/'.$req->guild->id.'/'.$req->guild->icon.'.png';
 } else {
-    $icon = $core->defaulticon; // fallback icon
+    $icon = $core->defaulticon; // Fallback icon
 }
 
 $result = [

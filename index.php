@@ -3,7 +3,8 @@ if (@!include('clientconfig.php')) exit('[ERR] File "clientconfig.php" not acces
 
 ## ERROR HANDLING START ##
 $err = false;
-    
+
+// Expected/required constants
 $expectedconst = [
     'UI_TITLE',
     'UI_ICON',
@@ -13,20 +14,25 @@ $expectedconst = [
     'JQUERY_PATH',
     'JQUERY_SRI_INTEGRITY',
     'JQUERY_SRI_CROSSORIGIN'
-]; // Expected/required constants
+];
 
-$missingconst = []; // Missing constants go in here
+// Missing constants container
+$missingconst = [];
     
 foreach ($expectedconst as $const) {
-    if (!isset(get_defined_constants(true)['user'][$const])) { // If the constant doesn't exist
+    // If the constant doesn't exist
+    if (!isset(get_defined_constants(true)['user'][$const])) {
         array_push($missingconst, $const); // Add to array
         $err = true; // All constants must exist so halt execution later on
     }
 }
 
-$remainingconst = implode(', ', $missingconst); // Joining the array with missing constants -- for the error message
-    
-if ($err) exit('[ERR] Missing config: '.$remainingconst); // Missing constants? Halt
+// Joining the array with missing constants -- for the error message
+$remainingconst = implode(', ', $missingconst);
+
+// Missing constants? Halt
+if ($err) exit('[ERR] Missing config: '.$remainingconst);
+
 ## ERROR HANDLING END ##
 ?>
 <!DOCTYPE html>
