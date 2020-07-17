@@ -14,7 +14,7 @@
 class core {
 
     public function __construct() {
-        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut;
+        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut, $torChk;
         // Bot token
         $this->token = '';
         // Domain
