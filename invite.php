@@ -14,7 +14,7 @@
 class core {
 
     public function __construct() {
-        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $cliver, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut;
+        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut;
         // Bot token
         $this->token = '';
         // Domain
@@ -22,7 +22,7 @@ class core {
         // Channel ID - invites user to specific channel (e.g. rules)
         $this->channel = '';
         // API path
-        $this->uri = 'https://'.$this->domain.'/api/v6/channels/'. $this->channel.'/invites';
+        $this->uri = 'https://' . $this->domain . '/api/v6/channels/' . $this->channel . '/invites';
 
         // Invite expiry
         $this->expiry = 60;
@@ -114,7 +114,6 @@ class initRequest extends core {
 
         $grcData = json_decode($grcRes);
         
-
         if (!isset($grcData->success) || $grcData->success !== true) {
             return false;
         } else {
@@ -236,7 +235,6 @@ if (!$core::DEBUG && !$req) {
     ];
     $req = json_decode($req) ?? $core->jsonRes($fbdat); // Attempt to decode JSON and on failure throw out error
 }
-
 
 # DEBUGGER
 if ($core::DEBUG) {
