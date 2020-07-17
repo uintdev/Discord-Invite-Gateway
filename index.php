@@ -5,7 +5,7 @@ if (@!include('clientconfig.php')) exit('[ERR] File "clientconfig.php" not acces
 $err = false;
 
 // Expected/required constants
-$expectedconst = [
+$expectedConst = [
     'UI_TITLE',
     'UI_ICON',
     'UI_STYLE_PATH',
@@ -17,21 +17,21 @@ $expectedconst = [
 ];
 
 // Missing constants container
-$missingconst = [];
+$missingConst = [];
     
-foreach ($expectedconst as $const) {
+foreach ($expectedConst as $const) {
     // If the constant doesn't exist
     if (!isset(get_defined_constants(true)['user'][$const])) {
-        array_push($missingconst, $const); // Add to array
+        array_push($missingConst, $const); // Add to array
         $err = true; // All constants must exist so halt execution later on
     }
 }
 
 // Joining the array with missing constants -- for the error message
-$remainingconst = implode(', ', $missingconst);
+$remainingConst = implode(', ', $missingConst);
 
 // Missing constants? Halt
-if ($err) exit('[ERR] Missing config: '.$remainingconst);
+if ($err) exit('[ERR] Missing config: '.$remainingConst);
 
 ## ERROR HANDLING END ##
 ?>
@@ -73,13 +73,13 @@ Press the button below to verify.
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript">
 var expiration = 0;
-var expirationexcess = 0;
+var expirationExcess = 0;
 var ticker = 0;
-var safelifetime = <?php echo LIFETIME_SAFE ?>;
+var safeLifeTime = <?php echo LIFETIME_SAFE ?>;
 function checkjson(jsonin) {
     try {
-        var jsonva = window.JSON.parse(jsonin);
-        if (jsonva && typeof jsonva === "object" && jsonva !== null) {
+        var jsonVA = window.JSON.parse(jsonin);
+        if (jsonVA && typeof jsonVA === "object" && jsonVA !== null) {
             return true;
         }
     } catch (e) {}
@@ -101,40 +101,40 @@ function submitdata() {
     $.post('invite.php', $('.verifyform').serialize(), function (data, formdata) {
         if (data != '') {
             if (checkjson(data) === true) {
-                jsonbit = window.JSON.parse(data);
-				jsontype = jsonbit.type;
-				if (jsontype == 'info') {
-					jsonguildicon = jsonbit.guild_icon;
-                    jsonguildname = jsonbit.guild_name;
-                    jsonguildchannel = jsonbit.guild_channel;
-					jsoninviteuri = jsonbit.invite_uri;
-                    jsonlifetime = jsonbit.lifetime;
+                jsonBit = window.JSON.parse(data);
+				jsonType = jsonBit.type;
+				if (jsonType == 'info') {
+					jsonGuildIcon = jsonBit.guild_icon;
+                    jsonGuildName = jsonBit.guild_name;
+                    jsonGuildChannel = jsonBit.guild_channel;
+					jsonInviteUri = jsonBit.invite_uri;
+                    jsonLifeTime = jsonBit.lifetime;
 
-                    jsonlifetime = jsonlifetime - safelifetime;
+                    jsonLifeTime = jsonLifeTime - safeLifeTime;
 
-                    var htmlresponse = '';
-                    htmlresponse += '<img src="' + jsonguildicon + '" class="guildicon">';
-                    htmlresponse += '<br><br>';
-                    htmlresponse += '<span class="guildname">' + jsonguildname + '</span>';
-                    htmlresponse += '<br>';
-                    htmlresponse += '<span class="guildchannel">#' + jsonguildchannel + '</span>';
-                    htmlresponse += '<br><br>';
-                    htmlresponse += '<span class="guildmsg guildmsglocked">True expiration: <span class="excessenrollife">' + safelifetime + 's</span></span>';
-                    htmlresponse += '<br><br>';
-                    htmlresponse += '<input type="button" class="invite" value="Enrol (' + jsonlifetime + 's)" onclick="window.open(\'' + jsoninviteuri + '\', \'_blank\');">';
-                    expiration = jsonlifetime;
-                    expirationexcess = safelifetime;
+                    var htmlResponse = '';
+                    htmlResponse += '<img src="' + jsonGuildIcon + '" class="guildicon">';
+                    htmlResponse += '<br><br>';
+                    htmlResponse += '<span class="guildname">' + jsonGuildName + '</span>';
+                    htmlResponse += '<br>';
+                    htmlResponse += '<span class="guildchannel">#' + jsonGuildChannel + '</span>';
+                    htmlResponse += '<br><br>';
+                    htmlResponse += '<span class="guildmsg guildmsglocked">True expiration: <span class="excessenrollife">' + safeLifeTime + 's</span></span>';
+                    htmlResponse += '<br><br>';
+                    htmlResponse += '<input type="button" class="invite" value="Enrol (' + jsonLifeTime + 's)" onclick="window.open(\'' + jsonInviteUri + '\', \'_blank\');">';
+                    expiration = jsonLifeTime;
+                    expirationExcess = safeLifeTime;
 
-                    $('.maininfo').html(htmlresponse);
+                    $('.maininfo').html(htmlResponse);
                     $('.verify').prop('value', 'Join');
                     $('.verify').prop('disabled', true);
 
-                    inviteexpiration();
+                    inviteExpiration();
 
-				} else if (jsontype == 'err') {
-                    jsonmsg = jsonbit.msg;
+				} else if (jsonType == 'err') {
+                    jsonMsg = jsonBit.msg;
                     $('.infohead').html('ERROR:');
-                    $('.infotxt').html(jsonmsg);
+                    $('.infotxt').html(jsonMsg);
                     $('.maininfoblk').removeClass('showf');
 					$('.info').addClass('show');
                     $('.verify').prop('value', 'Join');
@@ -182,7 +182,7 @@ $(document).on('submit', '.verifyform', function(e) {
     grecaptcha.execute();
     return false;
 });
-function expirationticker() {
+function expirationTicker() {
     if (expiration > -1) {
         $('.invite').prop('value', 'Enrol (' + expiration + 's)');
         --expiration;
@@ -190,9 +190,9 @@ function expirationticker() {
         $('.invite').prop('value', 'Expired');
         $('.invite').prop('disabled', true);
         $('.guildmsg').removeClass('guildmsglocked');
-        if (expirationexcess > -1) {
-            $('.excessenrollife').html(expirationexcess + 's');
-            --expirationexcess;
+        if (expirationExcess > -1) {
+            $('.excessenrollife').html(expirationExcess + 's');
+            --expirationExcess;
         } else {
             clearInterval(ticker);
             $('.guildmsg').html('To retry, use the \'join\' button.');
@@ -200,9 +200,9 @@ function expirationticker() {
         }
     }
 }
-function inviteexpiration() {
-    expirationticker();
-    ticker = setInterval(expirationticker, 1000);
+function inviteExpiration() {
+    expirationTicker();
+    ticker = setInterval(expirationTicker, 1000);
 }
 </script>
 </body>

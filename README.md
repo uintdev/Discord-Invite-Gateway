@@ -57,14 +57,14 @@ You will need to:
 | channel     | ID of the channel (refer to the link in the token part of this table)                                                                                          |
 | uri         | The entire URI -- don't really need to touch that                                                                                                              |
 | expiry      | Time (in seconds) before invite expiration (refer to `LIFETIME_SAFE` in the previous table)                                                                    |
-| maxuses     | Amount of times the same invite can be used                                                                                                                    |
-| tempmem     | Temporary membership                                                                                                                                           |
-| defaulticon | Icon to use if the guild has no icon set                                                                                                                       |
-| ua          | User agent -- refer to [Discord's documentation regarding UA format](https://discord.com/developers/docs/reference#http-api)                                |
-| grcuri      | Google reCAPTCHA API URI                                                                                                                                       |
-| grcseckey   | Google reCAPTCHA secret key                                                                                                                                    |
-| ctimeout    | cURL request timeout for all external backend communication (in seconds)                                                                                       |
-| torchk      | Optional TOR exit node check (enabled by default)                                                                                                              |
+| maxUses     | Amount of times the same invite can be used                                                                                                                    |
+| tempMem     | Temporary membership                                                                                                                                           |
+| defaultIcon | Icon to use if the guild has no icon set                                                                                                                       |
+| userAgent   | User agent -- refer to [Discord's documentation regarding UA format](https://discord.com/developers/docs/reference#http-api)                                   |
+| grcUri      | Google reCAPTCHA API URI                                                                                                                                       |
+| grcSecKey   | Google reCAPTCHA secret key                                                                                                                                    |
+| cTimeOut    | cURL request timeout for all external backend communication (in seconds)                                                                                       |
+| torChk      | Optional TOR exit node check (enabled by default)                                                                                                              |
 
 - To enable debugging, set the constant `DEBUG` (in the `core` class) to `true`
 

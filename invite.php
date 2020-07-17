@@ -14,7 +14,7 @@
 class core {
 
     public function __construct() {
-        global $token, $domain, $guild, $channel, $uri, $expiry, $maxuses, $tempmem, $defaulticon, $cliver, $ua, $grcuri, $grcseckey, $ip, $ctimeout;
+        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $cliver, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut;
         // Bot token
         $this->token = '';
         // Domain
@@ -22,47 +22,47 @@ class core {
         // Channel ID - invites user to specific channel (e.g. rules)
         $this->channel = '';
         // API path
-        $this->uri = 'https://'.$this->domain.'/api/v6/channels/'.$this->channel.'/invites';
+        $this->uri = 'https://'.$this->domain.'/api/v6/channels/'. $this->channel.'/invites';
 
         // Invite expiry
         $this->expiry = 60;
         // Invite uses
-        $this->maxuses = 1;
+        $this->maxUses = 1;
         // Invite temporary membership
-        $this->tempmem = false;
+        $this->tempMem = false;
 
         // Fallback icon for if the guild has no custom icon set
-        $this->defaulticon = 'assets/default.png';
+        $this->defaultIcon = 'assets/default.png';
 
         // User agent
-        $this->ua = 'DiscordBot (InviteBot, 1.0)';
+        $this->userAgent = 'DiscordBot (InviteBot, 1.0)';
 
         // GRC (Google reCAPTCHA) API URL
-        $this->grcuri = 'https://www.google.com/recaptcha/api/siteverify';
+        $this->grcUri = 'https://www.google.com/recaptcha/api/siteverify';
         // Secret key for the GRC API
-        $this->grcseckey = '';
+        $this->grcSecKey = '';
 
         // Get user IP
         $this->ip = $_SERVER['REMOTE_ADDR'];
 
         // Request timeout in seconds for cURL (all external backends)
-        $this->ctimeout = 5; 
+        $this->cTimeOut = 5; 
 
         // Check if user is using a TOR exit node
-        $this->torchk = true;
+        $this->torChk = true;
     }
     
     /**
      * Sets JSON response header.
      * @param mixed $result String or array containing data for response.
-     * @param bool $bypassenc Toggle JSON encoding.
+     * @param bool $bypassEnc Toggle JSON encoding.
      * 
      * @return string Returns JSON encoded response.
      */
-    public function jsonres($result = '', $bypassenc = false) {
+    public function jsonRes($result = '', $bypassEnc = false) {
         // JSONify the content
         header('Content-Type: application/json; charset=utf-8');
-        if (!$bypassenc) $result = json_encode($result);
+        if (!$bypassEnc) $result = json_encode($result);
         // Halts script where JSON encoded response *needs* to kick in
 		exit($result);
     }
@@ -74,7 +74,7 @@ class core {
 
 $core = new core;
 
-class Initrequest extends core {
+class initRequest extends core {
 
     public function __construct() {
         parent::__construct();
@@ -88,34 +88,34 @@ class Initrequest extends core {
     public function reCaptcha() {
         if (isset($_POST['g-recaptcha-response'])) {
             // Get reCaptcha response from form
-            $grcpres = $_POST['g-recaptcha-response'];
+            $grcPRes = $_POST['g-recaptcha-response'];
         } else {
-            $grcpres = '';
+            $grcPRes = '';
         }
 
         $data = [
-            'secret' => $this->grcseckey,
-            'response' => $grcpres,
+            'secret' => $this->grcSecKey,
+            'response' => $grcPRes,
             'remoteip' => $this->ip
         ];
 
-        $curlconfig = [
-            CURLOPT_URL => $this->grcuri,
+        $curlConfig = [
+            CURLOPT_URL => $this->grcUri,
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POSTFIELDS => $data,
-            CURLOPT_CONNECTTIMEOUT => $this->ctimeout
+            CURLOPT_CONNECTTIMEOUT => $this->cTimeOut
         ];
 
         $ch = curl_init();
-        curl_setopt_array($ch, $curlconfig);
-        $grcres = curl_exec($ch);
+        curl_setopt_array($ch, $curlConfig);
+        $grcRes = curl_exec($ch);
         curl_close($ch);
 
-        $grcdata = json_decode($grcres);
+        $grcData = json_decode($grcRes);
         
 
-        if (!isset($grcdata->success) || $grcdata->success !== true) {
+        if (!isset($grcData->success) || $grcData->success !== true) {
             return false;
         } else {
             return true;
@@ -128,25 +128,25 @@ class Initrequest extends core {
      * @return bool Indication of if the user is using a tor exit node.
      */
     public function torExitNode() {
-        if (!$this->torchk) return false;
+        if (!$this->torChk) return false;
         
-        $ipformat = strpos($this->ip, ':');
+        $ipFormat = strpos($this->ip, ':');
 
-        if (!$ipformat) {
+        if (!$ipFormat) {
             $fields = [
                 'QueryIP' => $this->ip
             ];
 
-            $curlconfig = [
+            $curlConfig = [
                 CURLOPT_URL => 'https://torstatus.blutmagie.de/tor_exit_query.php',
                 CURLOPT_POST => true,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POSTFIELDS => $fields,
-                CURLOPT_CONNECTTIMEOUT => $this->ctimeout
+                CURLOPT_CONNECTTIMEOUT => $this->cTimeOut
             ];
 
             $ch = curl_init();
-            curl_setopt_array($ch, $curlconfig);
+            curl_setopt_array($ch, $curlConfig);
             $html = curl_exec($ch);
             curl_close($ch);
 
@@ -168,31 +168,31 @@ class Initrequest extends core {
 		# Sends off a request to the API in attempt to create a new guild invite and fetches the response
 
         // POST parameters
-        $postparams = [
+        $postParams = [
             'max_age' => $this->expiry,
-            'max_uses' => $this->maxuses,
-            'temporary' => $this->tempmem,
+            'max_uses' => $this->maxUses,
+            'temporary' => $this->tempMem,
             'unique' => true
         ];
         
         // Encode to JSON
-        $postparamsjson = json_encode($postparams);
+        $postParamsJson = json_encode($postParams);
 
-        $curlconfig = [
+        $curlConfig = [
             CURLOPT_URL => $this->uri,
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS => $postparamsjson,
+            CURLOPT_POSTFIELDS => $postParamsJson,
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json',
                 'Authorization: Bot '.$this->token,
-                'User-Agent: '.$this->ua
+                'User-Agent: '.$this->userAgent
             ],
-            CURLOPT_CONNECTTIMEOUT => $this->ctimeout
+            CURLOPT_CONNECTTIMEOUT => $this->cTimeOut
         ];
 
         $ch = curl_init();
-        curl_setopt_array($ch, $curlconfig);
+        curl_setopt_array($ch, $curlConfig);
         $result = curl_exec($ch);
         curl_close($ch);
 
@@ -201,56 +201,56 @@ class Initrequest extends core {
 
 }
 
-$initrequest = new Initrequest;
+$initRequest = new initRequest;
 
 # Protection - APIs
 
 // Google reCAPTCHA
-if (!$core::DEBUG && !$initrequest->reCaptcha()) {
+if (!$core::DEBUG && !$initRequest->reCaptcha()) {
     $result = [
         'type' => 'err',
         'msg' => 'reCAPTCHA unsuccessful'
     ];
-    $core->jsonres($result);
-} else if (!$core::DEBUG && $initrequest->torExitNode()) {
+    $core->jsonRes($result);
+} else if (!$core::DEBUG && $initRequest->torExitNode()) {
     // TOR exit node check
     $result = [
         'type' => 'err',
         'msg' => 'TOR prohibited'
     ];
-    $core->jsonres($result);
+    $core->jsonRes($result);
 }
 
-$req = $initrequest->createInvite();
+$req = $initRequest->createInvite();
 
 if (!$core::DEBUG && !$req) {
 	$result = [
         'type' => 'err',
         'msg' => 'Unable to contact Discord API' // Request failure
     ];
-	$core->jsonres($result);
+	$core->jsonRes($result);
 } else if (!$core::DEBUG) {
     $fbdat = [
         'type' => 'err',
         'msg' => 'Malformed data received from Discord API'
     ];
-    $req = json_decode($req) ?? $core->jsonres($fbdat); // Attempt to decode JSON and on failure throw out error
+    $req = json_decode($req) ?? $core->jsonRes($fbdat); // Attempt to decode JSON and on failure throw out error
 }
 
 
 # DEBUGGER
 if ($core::DEBUG) {
     // Display Discord API response in a more easily debuggable format
-    $core->jsonres($req, true);
+    $core->jsonRes($req, true);
 }
 
 # API RESPONSE HANDLING
 if ($req != false && !isset($req->guild->name)) {
     if (isset($req->retry_after) && isset($req->message) && $req->message == 'You are being rate limited.') {
         // Convert milliseconds to seconds
-        $remaincount = ceil($req->retry_after / 1000);
+        $remainCount = ceil($req->retry_after / 1000);
         // Rate limited
-        $rmsg = 'Rate limited. Try again in '. $remaincount .' second(s)';
+        $rmsg = 'Rate limited. Try again in '. $remainCount .' second(s)';
     } elseif (isset($req->code) && $req->code == 0 && isset($req->message) && $req->message == '401: Unauthorized') {
         // Invalid token or API restricted
         $rmsg = 'Bad token or API restricted';
@@ -271,7 +271,7 @@ if ($req != false && !isset($req->guild->name)) {
         'type' => 'err',
         'msg' => $rmsg
     ];
-    $core->jsonres($result);
+    $core->jsonRes($result);
 }
 
 # Successful response
@@ -280,7 +280,7 @@ if ($req->guild->icon) {
     // Guild icon
     $icon = 'https://cdn.discordapp.com/icons/'.$req->guild->id.'/'.$req->guild->icon.'.png';
 } else {
-    $icon = $core->defaulticon; // Fallback icon
+    $icon = $core->defaultIcon; // Fallback icon
 }
 
 $result = [
@@ -292,4 +292,4 @@ $result = [
     'lifetime' => $req->max_age
 ];
 
-$core->jsonres($result);
+$core->jsonRes($result);
