@@ -9,7 +9,6 @@ Discord Invite Gateway is a web gateway that offers additional protection agains
 
 - Modern responsive (yet basic) dark UI
 - Google reCAPTCHA (v2)
-- TOR exit node check
 - Guild information preview
 - Countdown before expiration (w/ true expiration)
 - Very dynamic configuration
@@ -64,7 +63,6 @@ You will need to:
 | grcUri      | Google reCAPTCHA API URI                                                                                                                                       |
 | grcSecKey   | Google reCAPTCHA secret key                                                                                                                                    |
 | cTimeOut    | cURL request timeout for all external backend communication (in seconds)                                                                                       |
-| torChk      | Optional TOR exit node check (enabled by default)                                                                                                              |
 
 - To enable debugging, set the constant `DEBUG` (in the `core` class) to `true`
 

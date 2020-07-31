@@ -14,7 +14,7 @@
 class core {
 
     public function __construct() {
-        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut, $torChk;
+        global $token, $domain, $guild, $channel, $uri, $expiry, $maxUses, $tempMem, $defaultIcon, $userAgent, $grcUri, $grcSecKey, $ip, $cTimeOut;
         // Bot token
         $this->token = '';
         // Domain
@@ -47,9 +47,6 @@ class core {
 
         // Request timeout in seconds for cURL (all external backends)
         $this->cTimeOut = 5; 
-
-        // Check if user is using a TOR exit node
-        $this->torChk = true;
     }
     
     /**
@@ -122,42 +119,6 @@ class initRequest extends core {
     }
 
     /**
-     * Determine if the client is using a tor exit node.
-     *
-     * @return bool Indication of if the user is using a tor exit node.
-     */
-    public function torExitNode() {
-        if (!$this->torChk) return false;
-        
-        $ipFormat = strpos($this->ip, ':');
-
-        if (!$ipFormat) {
-            $fields = [
-                'QueryIP' => $this->ip
-            ];
-
-            $curlConfig = [
-                CURLOPT_URL => 'https://torstatus.blutmagie.de/tor_exit_query.php',
-                CURLOPT_POST => true,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POSTFIELDS => $fields,
-                CURLOPT_CONNECTTIMEOUT => $this->cTimeOut
-            ];
-
-            $ch = curl_init();
-            curl_setopt_array($ch, $curlConfig);
-            $html = curl_exec($ch);
-            curl_close($ch);
-
-            // If the IP is listed then it's true else it's false
-            return strstr($html, 'The IP Address you entered matches one or more active Tor servers');
-        } else {
-            // If using IPv6 then bypass check
-            return true;
-        }
-    }
-
-    /**
      * Create a Discord guild invite.
      *
      * @return string Response from the Discord API.
@@ -209,13 +170,6 @@ if (!$core::DEBUG && !$initRequest->reCaptcha()) {
     $result = [
         'type' => 'err',
         'msg' => 'reCAPTCHA unsuccessful'
-    ];
-    $core->jsonRes($result);
-} else if (!$core::DEBUG && $initRequest->torExitNode()) {
-    // TOR exit node check
-    $result = [
-        'type' => 'err',
-        'msg' => 'TOR prohibited'
     ];
     $core->jsonRes($result);
 }
